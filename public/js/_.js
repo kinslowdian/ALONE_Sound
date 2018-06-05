@@ -19,6 +19,8 @@ function sound_init()
 	sfx_thunder = {};
 	sfx_thunder.instanceClass = "sfx_thunder";
 	sfx_thunder.loop = false;
+	sfx_thunder.playCount = 0;
+	sfx_thunder.playMax = 1;
 	sfx_thunder.main = document.querySelector("." + sfx_thunder.instanceClass);
 
 	soundList.push(sfx_thunder);
@@ -26,6 +28,8 @@ function sound_init()
 	sfx_lightning = {};
 	sfx_lightning.instanceClass = "sfx_lightning";
 	sfx_lightning.loop = false;
+	sfx_thunder.playCount = 0;
+	sfx_thunder.playMax = 1;
 	sfx_lightning.main = document.querySelector("." + sfx_lightning.instanceClass);
 
 	soundList.push(sfx_lightning);
@@ -33,6 +37,8 @@ function sound_init()
 	sfx_thunderClap = {};
 	sfx_thunderClap.instanceClass = "sfx_thunderClap";
 	sfx_thunderClap.loop = true;
+	sfx_thunder.playCount = 0;
+	sfx_thunder.playMax = 3;
 	sfx_thunderClap.main = document.querySelector("." + sfx_thunderClap.instanceClass);
 
 	soundList.push(sfx_thunderClap);
