@@ -1,0 +1,40 @@
+// BASIC SETUP ON GITHUB
+
+git init
+
+git remote add origin http://gitlink
+
+git remote -v
+
+git add .
+
+git commit -m "First message"
+
+git push -u origin master
+
+
+//////////////////// USEFUL
+
+git branch
+
+git status
+
+git merge master
+
+git pull
+
+////////////////// CHANGE REMOTE URL
+git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
+
+
+////////////////// NEW BRANCH
+
+git checkout -b branch_name
+git status
+
+////////////////// NEW BRANCH MERGE
+git checkout master
+git status
+git merge branch_name
+git status
+git push origin master
