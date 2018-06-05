@@ -14,10 +14,28 @@ function pageLoad_init()
 
 function sound_init()
 {
-	soundList = {};
-	soundList.sfx_thunder = document.querySelector(".sfx_thunder");
-	soundList.sfx_lightning = document.querySelector(".sfx_lightning");
-	soundList.sfx_thunderClap = document.querySelector(".sfx_thunderClap");
+	soundList = new Array();
+
+	sfx_thunder = {};
+	sfx_thunder.instanceClass = "sfx_thunder";
+	sfx_thunder.loop = false;
+	sfx_thunder.main = document.querySelector("." + sfx_thunder.instanceClass);
+
+	soundList.push(sfx_thunder);
+
+	sfx_lightning = {};
+	sfx_lightning.instanceClass = "sfx_lightning";
+	sfx_lightning.loop = false;
+	sfx_lightning.main = document.querySelector("." + sfx_lightning.instanceClass);
+
+	soundList.push(sfx_lightning);
+
+	sfx_thunderClap = {};
+	sfx_thunderClap.instanceClass = "sfx_thunderClap";
+	sfx_thunderClap.loop = true;
+	sfx_thunderClap.main = document.querySelector("." + sfx_thunderClap.instanceClass);
+
+	soundList.push(sfx_thunderClap);
 
 	displayList = {};
 	displayList.go = document.querySelector(".go");
@@ -25,7 +43,7 @@ function sound_init()
 	displayList.go.addEventListener("click", sound_test, false);
 
 
-	soundList.sfx_thunderClap.addEventListener("ended", sound_event, false);
+	sfx_thunderClap.main.addEventListener("ended", sound_event, false);
 	
 	// sound_test();
 }
@@ -41,18 +59,36 @@ function sound_play()
 {
 	let delay;
 	
-	soundList.sfx_thunder.play();
-	soundList.sfx_thunderClap.play();
+	sfx_thunder.main.play();
 
 	delay = setTimeout(sound_ext, 2 * 1000);
 }
 
 function sound_ext()
 {
-	soundList.sfx_lightning.play();
+	sfx_lightning.main.play();
+
+	sfx_thunderClap.main.play();
 }
 
 function sound_event(event)
 {
-	trace(event);
+	let soundTarget = event.target.className;
+	let soundObject;
+
+	
+	for(let i in soundList)
+	{
+		// trace(soundList[i]);
+
+		if(soundTarget === soundList[i].instanceClass)
+		{
+			soundObject = soundList[i];
+		}
+	}
+
+	if(soundObject.loop)
+	{
+		soundObject.main.play();
+	}
 }
