@@ -37,14 +37,18 @@ function sound_init()
 {
 	soundList = {};
 
-	soundList.sfx_thunder = new SoundFX(document.querySelector(".sfx_thunder"));
-	soundList.sfx_thunder.create({instanceClass: "sfx_thunder", loop: false, playCount: 0, playMax: 1});
+	// soundList.sfx_thunder = new SoundFX(document.querySelector(".sfx_thunder"));
+	// soundList.sfx_thunder.create({instanceClass: "sfx_thunder", loop: false, playCount: 0, playMax: 1});
 
-	soundList.sfx_lightning = new SoundFX(document.querySelector(".sfx_lightning"));
-	soundList.sfx_lightning.create({instanceClass: "sfx_lightning", loop: false, playCount: 0, playMax: 1});
+	// soundList.sfx_lightning = new SoundFX(document.querySelector(".sfx_lightning"));
+	// soundList.sfx_lightning.create({instanceClass: "sfx_lightning", loop: false, playCount: 0, playMax: 1});
 
-	soundList.sfx_thunderClap = new SoundFX(document.querySelector(".sfx_thunderClap"));
-	soundList.sfx_thunderClap.create({instanceClass: "sfx_thunderClap", loop: true, playCount: 0, playMax: 3});
+	// soundList.sfx_thunderClap = new SoundFX(document.querySelector(".sfx_thunderClap"));
+	// soundList.sfx_thunderClap.create({instanceClass: "sfx_thunderClap", loop: true, playCount: 0, playMax: 3});
+
+	sound_build({instanceClass: "sfx_thunder", loop: false, playCount: 0, playMax: 1});
+	sound_build({instanceClass: "sfx_lightning", loop: false, playCount: 0, playMax: 1});
+	sound_build({instanceClass: "sfx_thunderClap", loop: true, playCount: 0, playMax: 3});
 
 	displayList = {};
 	displayList.go = document.querySelector(".go");
@@ -53,6 +57,12 @@ function sound_init()
 
 
 	soundList.sfx_thunderClap.main.addEventListener("ended", sound_event, false);
+}
+
+function sound_build(params)
+{
+	soundList[params.instanceClass] = new SoundFX(document.querySelector("." + params.instanceClass));
+	soundList[params.instanceClass].create(params);
 }
 
 function sound_test(event)
@@ -113,8 +123,6 @@ function sound_event(event)
 		else
 		{
 			soundObject.loop = false;
-
-			alert("LOOP COMPLETE");
 		}
 	}
 }
