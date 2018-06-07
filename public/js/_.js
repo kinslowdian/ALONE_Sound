@@ -24,6 +24,12 @@ class SoundFX
 		this.main.play();
 	}
 
+	stopSound()
+	{
+		this.main.removeEventListener("ended", this.event_sound.bind(this), false);
+		this.main.pause();
+	}
+
 	setRandDelay(hi, lo)
 	{
 		this.soundDelayHI = hi;
@@ -95,8 +101,10 @@ function sound_init()
 
 	displayList = {};
 	displayList.go = document.querySelector(".go");
+	displayList.end = document.querySelector(".end");
 
-	displayList.go.addEventListener("click", sound_test, false);
+	displayList.go.addEventListener("click", sound_test_go, false);
+	displayList.end.addEventListener("click", sound_test_end, false);
 
 	soundList.sfx_thunderClap.setRandDelay(6, 3);
 }
@@ -107,36 +115,24 @@ function sound_build(params)
 	soundList[params.instanceClass].create(params);
 }
 
-function sound_test(event)
+function sound_test_go(event)
 {
 	displayList.go.remove();
-	// timer = setTimeout(sound_test_a, 0.5 * 1000);
 
 	soundList.sfx_thunderClap.playSoundRandDelay();
-}
-
-
-function sound_test_a()
-{
-	let delay;
 
 	soundList.sfx_thunder.playSound();
-
-	delay = setTimeout(sound_test_b, 4 * 1000);
 }
 
-function sound_test_b()
+function sound_test_end(event)
 {
-	let delay;
+	for(var i in soundList)
+	{
+		soundList[i].stopSound();
+	}
 
-	soundList.sfx_lightning.playSound();
-
-	delay = setTimeout(sound_test_c, 4 * 1000);
-}
-
-function sound_test_c()
-{
-	soundList.sfx_thunderClap.playSound();
+	// EMPTY SET SOUNDS
+	soundList = {};
 }
 
 function sound_test_d()
