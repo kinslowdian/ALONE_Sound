@@ -93,20 +93,32 @@ function pageLoad_init()
 
 function sound_init()
 {
-	soundList = {};
-
-	sound_build({instanceClass: "sfx_thunder"});
-	sound_build({instanceClass: "sfx_lightning"});
-	sound_build({instanceClass: "sfx_thunderClap", loop: true, playMax: 3, randomPlay: true, onEndFunct: sound_test_d});
-
 	displayList = {};
 	displayList.go = document.querySelector(".go");
 	displayList.end = document.querySelector(".end");
 
 	displayList.go.addEventListener("click", sound_test_go, false);
 	displayList.end.addEventListener("click", sound_test_end, false);
+}
+
+function sound_test_go(event)
+{
+	// displayList.go.remove();
+
+	sound_add();
+}
+
+function sound_add()
+{
+	soundList = {};
+
+	sound_build({instanceClass: "sfx_thunder"});
+	sound_build({instanceClass: "sfx_lightning"});
+	sound_build({instanceClass: "sfx_thunderClap", loop: true, playMax: 3, randomPlay: true, onEndFunct: sound_test_d});
 
 	soundList.sfx_thunderClap.setRandDelay(6, 3);
+
+	sound_start();
 }
 
 function sound_build(params)
@@ -115,10 +127,8 @@ function sound_build(params)
 	soundList[params.instanceClass].create(params);
 }
 
-function sound_test_go(event)
+function sound_start()
 {
-	displayList.go.remove();
-
 	soundList.sfx_thunderClap.playSoundRandDelay();
 
 	soundList.sfx_thunder.playSound();
