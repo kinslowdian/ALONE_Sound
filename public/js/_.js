@@ -16,11 +16,13 @@ class SoundFX
 		this.playMax 		= params.playMax || 1;
 		this.randomPlay		= params.randomPlay || false;
 		this.onEndFunct		= params.onEndFunct || false;
+		this.delayTimer		= false;
 	}
 
 	playSound()
 	{
 		this.main.addEventListener("ended", this.event_sound.bind(this), false);
+		this.main.currentTime = 0;
 		this.main.play();
 	}
 
@@ -28,6 +30,11 @@ class SoundFX
 	{
 		this.main.removeEventListener("ended", this.event_sound.bind(this), false);
 		this.main.pause();
+		
+		if(!this.delayTimer)
+		{
+			clearTimeout(this.delayTimer);
+		}
 	}
 
 	setRandDelay(hi, lo)
@@ -139,10 +146,11 @@ function sound_test_end(event)
 	for(var i in soundList)
 	{
 		soundList[i].stopSound();
+		delete soundList[i];
 	}
 
 	// EMPTY SET SOUNDS
-	soundList = {};
+	// soundList = {};
 }
 
 function sound_test_d()
