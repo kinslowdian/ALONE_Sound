@@ -31,7 +31,7 @@ class SoundFX
 		this.main.removeEventListener("ended", this.event_sound.bind(this), false);
 		this.main.pause();
 		
-		if(!this.delayTimer)
+		if(this.delayTimer)
 		{
 			clearTimeout(this.delayTimer);
 		}
