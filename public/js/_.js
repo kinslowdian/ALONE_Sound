@@ -17,6 +17,8 @@ class SoundFX
 		this.randomPlay		= params.randomPlay || false;
 		this.onEndFunct		= params.onEndFunct || false;
 		this.delayTimer		= false;
+
+		trace(this.main);
 	}
 
 	playSound()
@@ -34,6 +36,19 @@ class SoundFX
 		if(this.delayTimer)
 		{
 			clearTimeout(this.delayTimer);
+		}
+	}
+
+	muteSound(apply)
+	{
+		if(apply)
+		{
+			this.main.muted = true;
+		}
+
+		else
+		{
+			this.main.muted = false;
 		}
 	}
 
@@ -58,7 +73,7 @@ class SoundFX
 			{
 				this.playCount ++;
 
-				if(this.playCount <= this.playMax)
+				if(this.playCount < this.playMax)
 				{
 					if(this.randomPlay)
 					{
@@ -91,6 +106,9 @@ var timer;
 var soundList;
 var displayList;
 
+var soundMuted = false;
+var soundUse = false;
+
 function pageLoad_init()
 {
 	trace("pageLoad_init();");
@@ -103,9 +121,11 @@ function sound_init()
 	displayList = {};
 	displayList.go = document.querySelector(".go");
 	displayList.end = document.querySelector(".end");
+	displayList.more = document.querySelector(".more");
 
 	displayList.go.addEventListener("click", sound_test_go, false);
 	displayList.end.addEventListener("click", sound_test_end, false);
+	displayList.more.addEventListener("click", sound_test_mute, false);
 }
 
 function sound_test_go(event)
@@ -117,15 +137,20 @@ function sound_test_go(event)
 
 function sound_add()
 {
-	soundList = {};
+	if(!soundUse)
+	{
+		soundUse = true;
 
-	sound_build({instanceClass: "sfx_thunder"});
-	sound_build({instanceClass: "sfx_lightning"});
-	sound_build({instanceClass: "sfx_thunderClap", loop: true, playMax: 3, randomPlay: true, onEndFunct: sound_test_d});
+		soundList = {};
 
-	soundList.sfx_thunderClap.setRandDelay(6, 3);
+		sound_build({instanceClass: "sfx_thunder"});
+		sound_build({instanceClass: "sfx_lightning"});
+		sound_build({instanceClass: "sfx_thunderClap", loop: true, playMax: 3, randomPlay: true, onEndFunct: sound_test_d});
 
-	sound_start();
+		soundList.sfx_thunderClap.setRandDelay(6, 3);
+
+		sound_start();
+	}
 }
 
 function sound_build(params)
@@ -149,14 +174,31 @@ function sound_test_end(event)
 		delete soundList[i];
 	}
 
-	// EMPTY SET SOUNDS
-	// soundList = {};
+	soundUse = false;
 }
 
 function sound_test_d()
 {
 	trace("fire");
 	soundList.sfx_lightning.playSound();
+}
+
+function sound_test_mute(event)
+{
+	for(var i in soundList)
+	{
+		if(soundMuted)
+		{
+			soundMuted = false;
+			soundList[i].muteSound(false);
+		}
+
+		else
+		{
+			soundMuted = true;
+			soundList[i].muteSound(true);
+		}
+	}
 }
 
 
