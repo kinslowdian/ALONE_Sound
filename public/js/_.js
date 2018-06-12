@@ -3,9 +3,12 @@ var trace = function(msg){ console.log(msg); };
 
 class SoundFX
 {
-	constructor(main)
+	constructor(main, muteOption)
 	{
 		this.main = main;
+		this.mute = muteOption;
+
+		this.muteApply();
 	}
 
 	create(params)
@@ -47,14 +50,21 @@ class SoundFX
 
 	muteSound(apply)
 	{
-		if(apply)
+		this.mute = apply;
+
+		this.muteApply();
+	}
+
+	muteApply()
+	{
+		if(this.mute)
 		{
-			this.main.muted = true;
+			this.main.volume = 0;
 		}
 
 		else
 		{
-			this.main.muted = false;
+			this.main.volume = 1;
 		}
 	}
 
@@ -167,7 +177,7 @@ function sound_add()
 
 function sound_build(params)
 {
-	soundList[params.instanceClass] = new SoundFX(document.querySelector("." + params.instanceClass));
+	soundList[params.instanceClass] = new SoundFX(document.querySelector("." + params.instanceClass), soundMuted);
 	soundList[params.instanceClass].create(params);
 }
 
