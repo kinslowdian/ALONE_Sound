@@ -144,8 +144,6 @@ function sound_init()
 
 function sound_test_go(event)
 {
-	// displayList.go.remove();
-
 	sound_add();
 }
 
@@ -194,7 +192,7 @@ function sound_test_end(event)
 
 function sound_test_d()
 {
-	trace("fire");
+	trace("sound_test_d();");
 	soundList.sfx_lightning.playSound();
 }
 
