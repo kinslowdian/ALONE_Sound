@@ -17,20 +17,26 @@ class SoundFX
 		this.randomPlay		= params.randomPlay || false;
 		this.onEndFunct		= params.onEndFunct || false;
 		this.delayTimer		= false;
+		this.playing		= false;
+
+		this.main.addEventListener("ended", this.event_sound.bind(this), false);
 
 		trace(this.main);
 	}
 
 	playSound()
 	{
-		this.main.addEventListener("ended", this.event_sound.bind(this), false);
-		this.main.currentTime = 0;
-		this.main.play();
+		if(!this.playing)
+		{
+			this.playing = true;
+
+			this.main.currentTime = 0;
+			this.main.play();
+		}
 	}
 
 	stopSound()
 	{
-		this.main.removeEventListener("ended", this.event_sound.bind(this), false);
 		this.main.pause();
 		
 		if(this.delayTimer)
@@ -69,6 +75,9 @@ class SoundFX
 	{
 		if(event.type === "ended")
 		{
+			
+			this.playing = false;
+
 			if(this.loop)
 			{
 				this.playCount ++;
@@ -99,6 +108,11 @@ class SoundFX
 				this.onEndFunct();
 			}
 		}
+	}
+
+	killSound()
+	{
+		this.main.removeEventListener("ended", this.event_sound.bind(this), false);
 	}
 }
 
@@ -171,6 +185,7 @@ function sound_test_end(event)
 	for(var i in soundList)
 	{
 		soundList[i].stopSound();
+		soundList[i].killSound();
 		delete soundList[i];
 	}
 
