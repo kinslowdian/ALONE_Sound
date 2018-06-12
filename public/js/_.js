@@ -146,18 +146,15 @@ function sound_init()
 	displayList.go = document.querySelector(".go");
 	displayList.end = document.querySelector(".end");
 	displayList.more = document.querySelector(".more");
+	displayList.start = document.querySelector(".start");
 
-	displayList.go.addEventListener("click", sound_test_go, false);
+	displayList.go.addEventListener("click", sound_add, false);
 	displayList.end.addEventListener("click", sound_test_end, false);
 	displayList.more.addEventListener("click", sound_test_mute, false);
+	displayList.start.addEventListener("click", sound_test_start, false);
 }
 
-function sound_test_go(event)
-{
-	sound_add();
-}
-
-function sound_add()
+function sound_add(event)
 {
 	if(!soundUse)
 	{
@@ -171,7 +168,10 @@ function sound_add()
 
 		soundList.sfx_thunderClap.setRandDelay(6, 3);
 
-		sound_start();
+		for(var i in soundList)
+		{
+			trace(soundList[i].instanceClass + " VOL === " + soundList[i].main.volume);
+		}
 	}
 }
 
@@ -181,7 +181,7 @@ function sound_build(params)
 	soundList[params.instanceClass].create(params);
 }
 
-function sound_start()
+function sound_test_start(event)
 {
 	soundList.sfx_thunderClap.playSoundRandDelay();
 
@@ -208,19 +208,22 @@ function sound_test_d()
 
 function sound_test_mute(event)
 {
+	if(soundMuted)
+	{
+		soundMuted = false;
+	}
+
+	else
+	{
+		soundMuted = true;
+	}
+
+
 	for(var i in soundList)
 	{
-		if(soundMuted)
-		{
-			soundMuted = false;
-			soundList[i].muteSound(false);
-		}
+		soundList[i].muteSound(soundMuted);
 
-		else
-		{
-			soundMuted = true;
-			soundList[i].muteSound(true);
-		}
+		trace(soundList[i].instanceClass + " VOL === " + soundList[i].main.volume);
 	}
 }
 
