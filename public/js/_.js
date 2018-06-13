@@ -60,11 +60,13 @@ class SoundFX
 		if(this.mute)
 		{
 			this.main.volume = 0;
+			this.main.muted = true;
 		}
 
 		else
 		{
 			this.main.volume = 1;
+			this.main.muted = false;
 		}
 	}
 
