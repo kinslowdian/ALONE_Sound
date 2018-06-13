@@ -134,12 +134,20 @@ var displayList;
 
 var soundMuted = false;
 var soundUse = false;
+var soundFeature = false;
+
+var touchDevice = false;
 
 function pageLoad_init()
 {
 	trace("pageLoad_init();");
 
 	sound_init();
+}
+
+function pageTouchDetected(event)
+{
+	touchDevice = true;
 }
 
 function sound_init()
@@ -149,16 +157,70 @@ function sound_init()
 	displayList.end = document.querySelector(".end");
 	displayList.more = document.querySelector(".more");
 	displayList.start = document.querySelector(".start");
+	displayList.libAudio = document.querySelector(".lib-audio");
+
+	window.addEventListener("touchstart", () => {touchDevice = true;}, false);
+
+
+	displayList.go.addEventListener("click", inputRoute, false);
+}
+
+function inputRoute(event)
+{
+	window.removeEventListener("touchstart", () => {touchDevice = true;}, false);
+
+	displayList.go.removeEventListener("click", inputRoute, false);
+
+	if(touchDevice)
+	{
+		trace("touch - hard remove sound");
+
+		checkerFail();
+	}
+
+	else
+	{
+		trace("desktop - check sound");
+
+		checker();
+	}
+}
+
+function checker()
+{
+	// REPLACE WITH TEST AUDIO TRACK.
+	let testAudio = document.querySelector(".sfx_thunderClap");
+	let promise = testAudio.play();
+
+	if(promise !== undefined)
+	{
+		promise.then(_ => { checkerPass(); }).catch(error => { checkerFail(); });
+	}
+}
+
+function checkerFail()
+{
+	soundFeature = false;
+	// CLEAR AUDIO
+	displayList.libAudio.innerHTML = "";
+}
+
+function checkerPass()
+{
+	soundFeature = true;
 
 	displayList.go.addEventListener("click", sound_add, false);
+
 	displayList.end.addEventListener("click", sound_test_end, false);
 	displayList.more.addEventListener("click", sound_test_mute, false);
 	displayList.start.addEventListener("click", sound_test_start, false);
+
+	sound_add(null);
 }
 
 function sound_add(event)
 {
-	if(!soundUse)
+	if(!soundUse && soundFeature)
 	{
 		soundUse = true;
 

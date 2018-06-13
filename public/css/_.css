@@ -6,6 +6,14 @@ html, body
 	height: 100%;
 }
 
+div
+{
+	color: #fff;
+	text-transform: uppercase;
+	text-align: center;
+	font-family: sans-serif;
+}
+
 
 .go
 {
@@ -21,6 +29,10 @@ html, body
 
 	cursor: pointer;
 	display: block;
+
+	user-select: none;
+	-webkit-touch-callout: none;
+	touch-callout: none;
 }
 
 .end
@@ -35,6 +47,10 @@ html, body
 
 	cursor: pointer;
 	display: block;
+
+	user-select: none;
+	-webkit-touch-callout: none;
+	touch-callout: none;
 }
 
 .more
@@ -49,6 +65,10 @@ html, body
 
 	cursor: pointer;
 	display: block;
+
+	user-select: none;
+	-webkit-touch-callout: none;
+	touch-callout: none;
 }
 
 .start
@@ -63,6 +83,10 @@ html, body
 
 	cursor: pointer;
 	display: block;
+
+	user-select: none;
+	-webkit-touch-callout: none;
+	touch-callout: none;
 }
 
 
